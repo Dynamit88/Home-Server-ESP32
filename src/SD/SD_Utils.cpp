@@ -4,9 +4,9 @@
 
 
 // SCK, MISO, MOSI,SS
-SPIClass SD_Utils::sdSPI(VSPI);
 
 void SD_Utils::init() {
+    SPIClass sdSPI(VSPI);
     sdSPI.begin(SDCARD_SCLK, SDCARD_MISO, SDCARD_MOSI, SDCARD_CS);
 
     if (!SD.begin(SDCARD_CS, sdSPI)) {
@@ -45,16 +45,19 @@ bool SD_Utils::fileExists(const char* path) {
   return SD.exists(path);
 }
 
-String SD_Utils::getFileContent(const char* path) {
+
+String SD_Utils::getFileContent(const char * path) {
   File file = SD.open(path);
-  String content = "";
-  
-  if (file) {
-    while (file.available()) {
-      content += (char) file.read();
-    }
-    file.close();
+  if (!file) {
+    Serial.println("Failed to open file for reading");
+    return "";
   }
-  
+
+  String content = "";
+  while (file.available()) {
+    content += (char)file.read();
+  }
+  file.close();
+
   return content;
 }
