@@ -5,9 +5,11 @@
 
 // SCK, MISO, MOSI,SS
 
+SPIClass sdSPI(HSPI);
+
+
 void SD_Utils::init() {
-    SPIClass sdSPI(VSPI);
-    sdSPI.begin(SDCARD_SCLK, SDCARD_MISO, SDCARD_MOSI, SDCARD_CS);
+    sdSPI.begin(SDCARD_SCK, SDCARD_MISO, SDCARD_MOSI, SDCARD_CS);
 
     if (!SD.begin(SDCARD_CS, sdSPI)) {
         Serial.println("Card Mount Failed");
@@ -39,6 +41,20 @@ void SD_Utils::init() {
         uint64_t cardSize = SD.cardSize() / (1024 * 1024);
         Serial.printf("SD Card Size: %lluMB\n", cardSize);
     }
+
+
+    // Serial.print("Initializing SD card...");
+    // digitalWrite(LoRa_CS, DeSelect);
+    // digitalWrite(SDCARD_CS, Select);    //  SELECT (Low) SD Card SPI
+    // delay(100);
+    // pinMode(SDCARD_CS, OUTPUT);    //  SELECT (Low) SD Card SPI
+
+    // if (!SD.begin(SDCARD_CS, SDCARD_MOSI, SD_MISO, SDCARD_SCLK)) {
+    //     Serial.println("initialization failed!");
+    //     return;
+    // }
+
+    // Serial.println("initialization done.");
 }
 
 bool SD_Utils::fileExists(const char* path) {

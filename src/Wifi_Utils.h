@@ -13,9 +13,13 @@ Macro definition
 #define WIFI_TIMEOUT 20000
 
 class Wifi_Utils {
-public:
-    static void connect(char* network, char* password);
-    static void startServer();
+    public:
+        static void connect(char* network, char* password);
+        static IPAddress getLocalIP();
+        static IPAddress getSubnetMask();
+        static IPAddress getGatewayIP();
+        static IPAddress getDNS0();
+        static IPAddress getDNS1();
 };
 
 #endif /* WIFI_UTILS_H */

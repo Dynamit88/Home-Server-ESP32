@@ -1,7 +1,12 @@
 #include <Arduino.h>
+
+#define LoRa_CS    18
+#define Select    LOW   //  Low CS means that SPI device Selected
+#define DeSelect  HIGH  //  High CS means that SPI device Deselected
+
 #define SDCARD_MISO 2
 #define SDCARD_CS 13
-#define SDCARD_SCLK 14
+#define SDCARD_SCK 14
 #define SDCARD_MOSI 15
 
 class SD_Utils {

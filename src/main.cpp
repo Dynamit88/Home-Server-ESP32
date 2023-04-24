@@ -43,12 +43,10 @@ void initScreen() {
 	display.setCursor(0,0);
 }
 
-
-
 void setup() {
 	Serial.begin(9600);
 	initScreen();
-	display.print("LORA RECEIVER 10");
+	display.print("LORA RECEIVER 1488");
 	display.display();
 
 	Serial.println("LoRa Receiver Test");
@@ -60,30 +58,18 @@ void setup() {
 	sdUtils.init();
 
 	// Handle requests to the root URL ("/")
-
-
 	server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-		// request->send(200, "text/plain", "Hello, world!");
-		// File file = SD.open("/index.html");
+		String page = sdUtils.getFileContent("/index.html");
 
-
-		String file = sdUtils.getFileContent("/index.html");
-
-		if (!file) {
-			request->send(404, "text/plain", "File not found");
-		}
-		else {
-			request->send(200, "text/html", file);
-		}
+		// request->send(200, "text/plain", page);
+		request->send(200, "text/html; charset=utf-8", page);
 	});
 
 	// Handle requests to other URLs
 	server.on("/example", HTTP_GET, [](AsyncWebServerRequest *request) {
-		request->send(200, "text/plain", "This is an example page");
+		// request->send(200, "text/plain", "This is an example page");
+		request->send(200, "text/html; charset=utf-8", "This is an example page");
 	});
-
-
-
 
 	// Start the server
 	server.begin();
